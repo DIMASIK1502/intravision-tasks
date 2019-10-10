@@ -2,6 +2,7 @@
   height: 100vh;
   display: flex;
   .page-content {
+    overflow: hidden;
     position: relative;
     margin-left: 95px;
     height: 100%;

@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import OrderCreate from "../components/OrderCreate/OrderCreate";
-import Home from "../pages/Home/Home";
+import Orders from "../pages/Orders/Orders";
 
 export default class Root extends Component {
   render() {
     return (
       <Switch>
         <Route path="/orders">
-          <Switch>
-            <Route exact path={"/orders/create"}>
-              <OrderCreate />
-            </Route>
-          </Switch>
-          <Home />
+          <Orders />
         </Route>
         <Route path="*">
           <div

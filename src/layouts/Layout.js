@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header/Header";
-import './Layout.scss';
+import "./Layout.scss";
 
 export default class Layout extends Component {
   render() {

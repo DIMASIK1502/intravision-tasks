@@ -1,18 +1,29 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { toggleOrderCreate } from "../../actions/common";
 import "./OrderCreate.scss";
 
-export default class OrderCreate extends Component {
+class OrderCreate extends Component {
   render() {
+    const { visible, toggleOrderCreate } = this.props;
     return (
-      <div className="order-create-panel">
+      <div className={`order-create-panel ${visible ? "visible" : ""}`}>
         <div className="panel-header">
           <span className="header-title">Новая заявка</span>
-          <Link to="/orders" className="header-close">
+          <button onClick={() => toggleOrderCreate()} className="header-close">
             X
-          </Link>
+          </button>
         </div>
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { visible: state.common.orderCreateVisible };
+}
+
+export default connect(
+  mapStateToProps,
+  { toggleOrderCreate }
+)(OrderCreate);

@@ -1,7 +1,10 @@
 .order-create-panel {
+  transform: translateX(100%);
   border: 1px solid #d7dce0;
   border-right: none;
+  transition: 0.2s;
   position: absolute;
+  opacity: 0;
   top: 65px;
   right: 0;
   bottom: 0;
@@ -11,6 +14,11 @@
   display: flex;
   align-items: stretch;
   flex-direction: column;
+  &.visible {
+    transition: 0.2s;
+    opacity: 1;
+    transform: translateX(0);
+  }
   .panel-header {
     display: flex;
     justify-content: space-between;
