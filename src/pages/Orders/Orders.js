@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import OrderCreate from "../../components/OrderCreate/OrderCreate";
 import { toggleOrderCreate } from "../../actions/common";
+import Table from "../../components/Table/Table";
+
 import {
   getOrdersList,
   getStatusList,
@@ -19,6 +21,31 @@ class Orders extends Component {
     const { toggleOrderCreate, orderCreateVisible, orders } = this.props;
     return (
       <>
+        <Table
+          columns={[
+            { title: "ID", width: "112px", key: "id" },
+            {
+              title: "Название",
+              width: "420px",
+              key: "name",
+              className: "cell-name"
+            },
+            {
+              title: "Статус",
+              width: "120px",
+              render: row => (
+                <div
+                  className="status-badge"
+                  style={{ backgroundColor: row.statusRgb }}
+                >
+                  {row.statusName}
+                </div>
+              )
+            },
+            { title: "Исполнитель", width: "1fr" }
+          ]}
+          data={orders}
+        ></Table>
         <OrderCreate />
         <div className="orders-page">
           <button

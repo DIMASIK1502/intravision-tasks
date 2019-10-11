@@ -1,0 +1,20 @@
+.grid-table {
+  .table-columns {
+  }
+  .table-rows {
+    .table-row {
+      cursor: pointer;
+      &:hover {
+        transition: 0.2s;
+        background-color: #d2e1ee;
+      }
+      transition: 0.2s;
+      border-bottom: 1px solid #dae0e7;
+      height: 50px;
+      .row-cell {
+        align-items: center;
+        display: flex;
+      }
+    }
+  }
+}
