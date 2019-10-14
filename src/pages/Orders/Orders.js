@@ -1,235 +1,95 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import OrderCreate from "../../components/OrderCreate/OrderCreate";
-import { toggleOrderCreate } from "../../actions/common";
+import { toggleOrderCreate, toggleOrderEdit } from "../../actions/common";
 import Table from "../../components/Table/Table";
 
 import {
   getOrdersList,
   getStatusList,
-  getPrioritiesList
+  getPrioritiesList,
+  getOrderDetails
 } from "../../actions/orders";
 import "./Orders.scss";
+import OrderEdit from "../../components/OrderEdit/OrderEdit";
 
 class Orders extends Component {
+  state = {
+    orderDetails: null
+  };
   async componentDidMount() {
     await this.props.getOrdersList();
     await this.props.getStatusList();
     await this.props.getPrioritiesList();
   }
+  handleRowClick = async row => {
+    this.setState({ orderDetails: row });
+    this.props.toggleOrderEdit(true);
+  };
   render() {
-    const { toggleOrderCreate, orderCreateVisible, orders } = this.props;
+    const { orderDetails } = this.state;
+    const {
+      toggleOrderCreate,
+      orderCreateVisible,
+      orders,
+      ordersTableLoading
+    } = this.props;
     return (
       <>
-        <Table
-          columns={[
-            { title: "ID", width: "112px", key: "id" },
-            {
-              title: "Название",
-              width: "420px",
-              key: "name",
-              className: "cell-name"
-            },
-            {
-              title: "Статус",
-              width: "120px",
-              render: row => (
-                <div
-                  className="status-badge"
-                  style={{ backgroundColor: row.statusRgb }}
-                >
-                  {row.statusName}
-                </div>
-              )
-            },
-            { title: "Исполнитель", width: "1fr" }
-          ]}
-          data={orders}
-        ></Table>
         <OrderCreate />
+        <OrderEdit order={orderDetails} />
         <div className="orders-page">
           <button
             style={{
               transform: `translateX(${orderCreateVisible ? -975 : 0}px)`
             }}
-            className="order-create-btn"
+            className="common-btn order-create-btn"
             onClick={() => toggleOrderCreate()}
           >
             Создать заявку
           </button>
+
           <div className="table-wrapper">
-            <table>
-              <thead className="table-header">
-                <tr>
-                  <th style={{ textAlign: "center", width: 112 }}>ID</th>
-                  <th style={{ textAlign: "left", width: 420 }}>Название</th>
-                  <th style={{ textAlign: "left", width: 120 }}>Статус</th>
-                  <th style={{ textAlign: "left" }}>Исполнитель</th>
-                </tr>
-              </thead>
-              <tbody className="table-body">
-                {orders.map((item, key) => {
-                  return (
-                    <tr key={`table-row-${key}`}>
-                      <td>
-                        <div>
-                          <div className="cell-border"></div>
-                          {item.id}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-text">
-                          <span>{item.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-status">
-                          <div
-                            className="status-badge"
-                            style={{ backgroundColor: item.statusRgb }}
-                          >
-                            {item.statusName}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <span>{item.executorName}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {orders.map((item, key) => {
-                  return (
-                    <tr key={`table-row-${key}`}>
-                      <td>
-                        <div>
-                          <div className="cell-border"></div>
-                          {item.id}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-text">
-                          <span>{item.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-status">
-                          <div
-                            className="status-badge"
-                            style={{ backgroundColor: item.statusRgb }}
-                          >
-                            {item.statusName}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <span>{item.executorName}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {orders.map((item, key) => {
-                  return (
-                    <tr key={`table-row-${key}`}>
-                      <td>
-                        <div>
-                          <div className="cell-border"></div>
-                          {item.id}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-text">
-                          <span>{item.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-status">
-                          <div
-                            className="status-badge"
-                            style={{ backgroundColor: item.statusRgb }}
-                          >
-                            {item.statusName}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <span>{item.executorName}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {orders.map((item, key) => {
-                  return (
-                    <tr key={`table-row-${key}`}>
-                      <td>
-                        <div>
-                          <div className="cell-border"></div>
-                          {item.id}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-text">
-                          <span>{item.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-status">
-                          <div
-                            className="status-badge"
-                            style={{ backgroundColor: item.statusRgb }}
-                          >
-                            {item.statusName}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <span>{item.executorName}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {orders.map((item, key) => {
-                  return (
-                    <tr key={`table-row-${key}`}>
-                      <td>
-                        <div>
-                          <div className="cell-border"></div>
-                          {item.id}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-text">
-                          <span>{item.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="cell-status">
-                          <div
-                            className="status-badge"
-                            style={{ backgroundColor: item.statusRgb }}
-                          >
-                            {item.statusName}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div>
-                          <span>{item.executorName}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <Table
+              onRowClick={this.handleRowClick}
+              loading={ordersTableLoading}
+              columns={[
+                {
+                  headerClassName: "id-col",
+                  title: "ID",
+                  width: "112px",
+                  key: "id",
+                  render: row => {
+                    return (
+                      <>
+                        <div className="cell-divider"></div>
+                        <span>{row.id}</span>
+                      </>
+                    );
+                  }
+                },
+                {
+                  title: "Название",
+                  width: "420px",
+                  key: "name",
+                  className: "cell-name"
+                },
+                {
+                  title: "Статус",
+                  width: "120px",
+                  render: row => (
+                    <div
+                      className="status-badge"
+                      style={{ backgroundColor: row.statusRgb }}
+                    >
+                      {row.statusName}
+                    </div>
+                  )
+                },
+                { title: "Исполнитель", width: "1fr", key: "executorName" }
+              ]}
+              data={[...orders, ...orders, ...orders, ...orders]}
+            ></Table>
           </div>
         </div>
       </>
@@ -240,12 +100,22 @@ class Orders extends Component {
 function mapStateToProps(state) {
   return {
     orderCreateVisible: state.common.orderCreateVisible,
+    orderEditVisible: state.common.orderEditVisible,
     orders: state.orders.orders,
     statusList: state.orders.statusList,
-    prioritiesList: state.orders.prioritiesList
+    prioritiesList: state.orders.prioritiesList,
+    ordersTableLoading: state.common.ordersTableLoading,
+    orderDetails: state.orders.orderDetails
   };
 }
 export default connect(
   mapStateToProps,
-  { getOrdersList, getStatusList, getPrioritiesList, toggleOrderCreate }
+  {
+    getOrdersList,
+    getStatusList,
+    getPrioritiesList,
+    toggleOrderCreate,
+    getOrderDetails,
+    toggleOrderEdit
+  }
 )(Orders);

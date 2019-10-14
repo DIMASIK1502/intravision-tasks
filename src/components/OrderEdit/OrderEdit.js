@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toggleOrderCreate } from "../../actions/common";
+import { toggleOrderEdit } from "../../actions/common";
 import { orderCreate, getOrdersList } from "../../actions/orders";
-import "./OrderCreate.scss";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
+
+import "./OrderEdit.scss";
 
 class OrderCreate extends Component {
   state = {
@@ -21,7 +22,7 @@ class OrderCreate extends Component {
     this.props
       .orderCreate({ name, description })
       .then(res => {
-        this.props.toggleOrderCreate();
+        this.props.toggleOrderEdit();
         this.setState({ loading: false, name: "", description: "" });
         this.props.getOrdersList();
       })
@@ -30,13 +31,16 @@ class OrderCreate extends Component {
       });
   };
   render() {
-    const { name, description, loading } = this.state;
-    const { visible, toggleOrderCreate } = this.props;
-    return (
-      <div className={`order-create-panel ${visible ? "visible" : ""}`}>
+    const { loading } = this.state;
+    const { visible, toggleOrderEdit, order } = this.props;
+    return order ? (
+      <div className={`order-edit-panel ${visible ? "visible" : ""}`}>
         <div className="panel-header">
-          <span className="header-title">Новая заявка</span>
-          <button onClick={() => toggleOrderCreate()} className="header-close">
+          <span className="header-title">
+            <span>№{order.id}</span>
+            <div>{order.name}</div>
+          </span>
+          <button onClick={() => toggleOrderEdit()} className="header-close">
             X
           </button>
         </div>
@@ -44,22 +48,8 @@ class OrderCreate extends Component {
           <LoadingOverlay center loading={loading}>
             <div className="order-create-form">
               <div className="form-input-wrapper">
-                <span>Название</span>
-                <textarea
-                  onChange={this.handleTextChange}
-                  name="name"
-                  value={name}
-                  className="input-order-name"
-                ></textarea>
-              </div>
-              <div className="form-input-wrapper">
                 <span>Описание</span>
-                <textarea
-                  onChange={this.handleTextChange}
-                  name="description"
-                  value={description}
-                  className="input-order-description"
-                ></textarea>
+                <p>{order.description}</p>
               </div>
               <button
                 onClick={this.handleOrderSave}
@@ -71,15 +61,15 @@ class OrderCreate extends Component {
           </LoadingOverlay>
         </div>
       </div>
-    );
+    ) : null;
   }
 }
 
 function mapStateToProps(state) {
-  return { visible: state.common.orderCreateVisible };
+  return { visible: state.common.orderEditVisible };
 }
 
 export default connect(
   mapStateToProps,
-  { toggleOrderCreate, orderCreate, getOrdersList }
+  { toggleOrderEdit, orderCreate, getOrdersList }
 )(OrderCreate);
