@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 
 import "./Table.scss";
-import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 
 export default class Table extends Component {
   static propTypes = {
@@ -15,12 +15,16 @@ export default class Table extends Component {
     return data.map((row, rowKey) => {
       return (
         <div
+          key={`row-${rowKey}`}
           {...(onRowClick && { onClick: () => onRowClick(row) })}
           style={{ gridTemplateColumns: templateColumns, display: "grid" }}
           className="table-row"
         >
           {columns.map((col, colKey) => (
-            <div className={`row-cell ${col.className ? col.className : ""}`}>
+            <div
+              key={`col-${colKey}`}
+              className={`row-cell ${col.className ? col.className : ""}`}
+            >
               <div className="cell-content">
                 {col.render ? col.render(row) : row[col.key]}
               </div>

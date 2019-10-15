@@ -58,6 +58,16 @@ export function orderCreate(data) {
       description: data.description
     });
 }
+export function orderUpdate(orderId, statusId) {
+  return dispatch =>
+    axios
+      .put(`${api}/api/${tenantguid}/Tasks/${orderId}/`, {
+        statusId: statusId
+      })
+      .then(res => {
+        console.log(res.data);
+      });
+}
 export function getOrderDetails(id) {
   return dispatch =>
     axios

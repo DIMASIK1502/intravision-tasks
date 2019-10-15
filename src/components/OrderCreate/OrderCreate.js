@@ -76,7 +76,10 @@ class OrderCreate extends Component {
 }
 
 function mapStateToProps(state) {
-  return { visible: state.common.orderCreateVisible };
+  return {
+    visible: state.common.orderCreateVisible,
+    statusList: state.orders.statusList
+  };
 }
 
 export default connect(

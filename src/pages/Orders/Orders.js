@@ -56,6 +56,7 @@ class Orders extends Component {
               columns={[
                 {
                   headerClassName: "id-col",
+                  className: "cell-id",
                   title: "ID",
                   width: "112px",
                   key: "id",

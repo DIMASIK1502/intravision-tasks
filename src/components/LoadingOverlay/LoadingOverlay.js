@@ -9,7 +9,7 @@ export default class LoadingOverlay extends Component {
           className={`loading-overlay ${this.props.loading ? "active" : ""}`}
           style={{ aligItems: this.props.center ? "center" : "flex-start" }}
         >
-          <div class="lds-roller">
+          <div className="lds-roller">
             <div></div>
             <div></div>
             <div></div>

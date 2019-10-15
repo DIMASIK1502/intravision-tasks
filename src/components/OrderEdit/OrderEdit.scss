@@ -54,14 +54,46 @@
     }
   }
   .panel-content {
+    height: 100%;
+    display: flex;
+    .content-sidebar {
+      max-width: 240px;
+      height: 100%;
+      width: 100%;
+      border-left: 1px solid #d7dce0;
+      .sidebar-info {
+        padding: 24px;
+        .info-list {
+          display: flex;
+          flex-direction: column;
+          .list-item {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            .item-label {
+              font-size: 14px;
+              color: #a09fa8;
+              font-family: "Ubuntu", sans-serif;
+              margin-bottom: 4px;
+            }
+            .item-content {
+            }
+          }
+        }
+      }
+    }
     overflow-y: auto;
-    .order-create-form {
+    .order-edit-form {
+      width: 100%;
       padding: 38px;
       .form-input-wrapper {
         margin-bottom: 24px;
         max-width: 625px;
         display: flex;
         flex-direction: column;
+        p {
+          margin: 0;
+        }
         span {
           margin-left: 2px;
           font-family: "Ubuntu", sans-serif;

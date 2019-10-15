@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toggleOrderEdit } from "../../actions/common";
-import { orderCreate, getOrdersList } from "../../actions/orders";
+import { orderCreate, getOrdersList, orderUpdate } from "../../actions/orders";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
-
+import StatusPicker from "../StatusPicker/StatusPicker";
 import "./OrderEdit.scss";
 
-class OrderCreate extends Component {
+class OrderEdit extends Component {
   state = {
     name: "",
     description: "",
@@ -32,7 +32,7 @@ class OrderCreate extends Component {
   };
   render() {
     const { loading } = this.state;
-    const { visible, toggleOrderEdit, order } = this.props;
+    const { visible, toggleOrderEdit, order, orderUpdate } = this.props;
     return order ? (
       <div className={`order-edit-panel ${visible ? "visible" : ""}`}>
         <div className="panel-header">
@@ -44,9 +44,9 @@ class OrderCreate extends Component {
             X
           </button>
         </div>
-        <div className="panel-content">
-          <LoadingOverlay center loading={loading}>
-            <div className="order-create-form">
+        <LoadingOverlay center loading={loading}>
+          <div className="panel-content">
+            <div className="order-edit-form">
               <div className="form-input-wrapper">
                 <span>Описание</span>
                 <p>{order.description}</p>
@@ -58,8 +58,50 @@ class OrderCreate extends Component {
                 Сохранить
               </button>
             </div>
-          </LoadingOverlay>
-        </div>
+            <div className="content-sidebar">
+              <div className="sidebar-info">
+                <div className="info-list">
+                  <div className="list-item">
+                    <div className="item-content">
+                      <div className="status">
+                        <StatusPicker
+                          onStatusChange={id => orderUpdate(order.id, id)}
+                          statusId={order.statusId}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="list-item">
+                    <span className="item-label">Заявитель</span>
+                    <div className="item-content">{order.initiatorName}</div>
+                  </div>
+                  <div className="list-item">
+                    <span className="item-label">Создана</span>
+                    <div className="item-content"></div>
+                  </div>
+                  <div className="list-item">
+                    <span className="item-label">Исполнитель</span>
+                    <div className="item-content">{order.executorName}</div>
+                  </div>
+                  {order.resolutionDatePlan && (
+                    <div className="list-item">
+                      <span className="item-label">Срок</span>
+                      <div className="item-content">
+                        {new Date(
+                          order.resolutionDatePlan
+                        ).toLocaleDateString()}
+                      </div>
+                    </div>
+                  )}
+                  <div className="list-item">
+                    <span className="item-label">Приоритет</span>
+                    <div className="item-content">{order.priorityName}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </LoadingOverlay>
       </div>
     ) : null;
   }
@@ -71,5 +113,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { toggleOrderEdit, orderCreate, getOrdersList }
-)(OrderCreate);
+  { toggleOrderEdit, orderCreate, getOrdersList, orderUpdate }
+)(OrderEdit);
